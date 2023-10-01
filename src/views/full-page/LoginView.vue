@@ -78,7 +78,7 @@
       axios.post(BASE_URL+"/auth/login", { username: form.value.username, password: form.value.password })
         .then((response) => {
           token.value = response.data.data.accessToken;
-          role.value = response.data.data.role;
+          role.value = response.data.data.user.role.constant;
           console.log(role.value);
           if (response.data.status.code !== 1000) {
             console.log("Login fail !");
@@ -86,10 +86,10 @@
             isLoading.value = false;
           }else if (role.value === 'ROLE_ADMIN' || 'ROLE_MANAGER'){
             localStorage.setItem("token", token.value);
-            localStorage.setItem("username", response.data.data.username);
-            localStorage.setItem("name", response.data.data.name);
-            localStorage.setItem("role", response.data.data.role);
-            localStorage.setItem("employeeId", response.data.data.employeeId);
+            localStorage.setItem("username", response.data.data.user.username);
+            localStorage.setItem("name", response.data.data.user.employee.name);
+            localStorage.setItem("role", role.value);
+            localStorage.setItem("employeeId", response.data.data.user.employee.employeeId);
             isLoading.value = false;
             router.push("/home");
           } else {
