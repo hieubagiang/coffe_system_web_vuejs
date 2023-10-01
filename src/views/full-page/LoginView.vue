@@ -89,7 +89,7 @@
             localStorage.setItem("username", response.data.data.user.username);
             localStorage.setItem("name", response.data.data.user.employee.name);
             localStorage.setItem("role", role.value);
-            localStorage.setItem("employeeId", response.data.data.user.employee.employeeId);
+            localStorage.setItem("employeeId", response.data.data.user.employee.id);
             isLoading.value = false;
             router.push("/home");
           } else {
