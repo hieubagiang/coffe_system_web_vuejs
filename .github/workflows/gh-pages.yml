@@ -11,4 +11,4 @@ jobs:
         with:
           username: 'hieubagiang'
           reponame: 'coffe_system_web_vuejs'
-          token: ${{ secrets.TOKEN }} # Leave this line unchanged
+          token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
