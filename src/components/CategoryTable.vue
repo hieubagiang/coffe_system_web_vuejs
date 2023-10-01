@@ -120,13 +120,14 @@
 </template>
 
 <script>
-  import {defineComponent} from "vue";
-  import CardComponent from "@/components/CardComponent.vue";
-  import ModalBox from "@/components/ModalBox.vue";
-  import axios from "axios";
+import {defineComponent} from "vue";
+import CardComponent from "@/components/CardComponent.vue";
+import ModalBox from "@/components/ModalBox.vue";
+import axios from "axios";
+import {BASE_URL} from "@/config/config";
 
 
-  export default defineComponent({
+export default defineComponent({
     name: "CategoryTable",
     components: {ModalBox, CardComponent},
     props: {
@@ -143,31 +144,29 @@
         isModalActive: false,
         trashObject: null,
         categories: [],
-        storeId: '',
+        storeId: "",
         isActive: false,
         myModel: false,
-        instance: '',
+        instance: "",
         category: {
-          id: '',
-          name: '',
-          createTime: ''
+          id: "",
+          name: "",
+          createTime: ""
         },
         isCard: false,
         isComponentModalActive: false
       };
     },
     mounted() {
-      const baseDomain = "http://localhost:8080";
-
-      const baseURL = `${baseDomain}`;
+      const baseURL = `${BASE_URL}`;
       this.instance = axios.create({
         baseURL,
       });
       this.instance.interceptors.request.use(
         (config) => {
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers["Authorization"] = `Bearer ${token}`;
           }
 
           return config;
@@ -208,7 +207,7 @@
             .then((response) => {
               if (response.data.status.code === 1000) {
                 this.myModel = false;
-                this.loadCategories()
+                this.loadCategories();
                 this.$buefy.toast.open({
                   message: "Lưu thành công",
                   type: "is-success"
@@ -220,7 +219,7 @@
       },
       pause() {
         this.$buefy.notification.open({
-          message: `Vui lòng điền đầy đủ thông tin`,
+          message: "Vui lòng điền đầy đủ thông tin",
           type: "is-danger",
           pauseOnHover: true,
         });
@@ -248,7 +247,7 @@
           title: "Xóa loại đồ uống",
           message: "Bạn chắc chắn <b>xóa</b> chứ ?",
           confirmText: "Xóa",
-          cancelText: 'Hủy',
+          cancelText: "Hủy",
           type: "is-danger",
           hasIcon: true,
           onConfirm: () => this.confirmDelete(id)

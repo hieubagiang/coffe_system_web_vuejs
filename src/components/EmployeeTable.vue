@@ -203,7 +203,7 @@
               horizontal
               label="Ca"
             >
-              <div v-for="shift in shifts">
+              <div v-for="shift in shifts" v-bind:key="shift.id">
                 <input id="shift" v-model="employee.shiftId" :value="shift.id" type="radio"/> {{ shift.name }}
               </div>
             </b-field>
@@ -212,7 +212,7 @@
               horizontal
               label="Cơ sở cửa hàng"
             >
-              <div v-for="store in stores">
+              <div v-for="store in stores" v-bind:key="store.id">
                 <input id="store" v-model="employee.storeId" :value="store.id" type="radio"/> {{ store.name }}
               </div>
             </b-field>
@@ -241,12 +241,13 @@
 </template>
 
 <script>
-  import {defineComponent} from "vue";
-  import ModalBox from "@/components/ModalBox.vue";
-  import CardComponent from "@/components/CardComponent.vue";
-  import axios from "axios";
+import {defineComponent} from "vue";
+import ModalBox from "@/components/ModalBox.vue";
+import CardComponent from "@/components/CardComponent.vue";
+import axios from "axios";
+import {BASE_URL} from "@/config/config";
 
-  export default defineComponent({
+export default defineComponent({
     name: "EmployeeTable",
     components: {ModalBox, CardComponent},
     props: {
@@ -287,9 +288,7 @@
       };
     },
     mounted() {
-      const baseDomain = "http://localhost:8080";
-
-      const baseURL = `${baseDomain}`;
+      const baseURL = `${BASE_URL}`;
       this.instance = axios.create({
         baseURL,
       });
@@ -314,9 +313,9 @@
       this.employee.storeId = this.stores[0].id;
       this.employee.shiftId = this.shifts[0].id;
 
-      this.$root.on('load', () => {
+      this.$root.on("load", () => {
         this.loadEmployee(this.storeId);
-      })
+      });
     },
 
     computed: {
@@ -399,7 +398,7 @@
           title: "Xóa nhân viên",
           message: "Bạn chắc chắn <b>xóa</b> chứ ?",
           confirmText: "Xóa",
-          cancelText: 'Hủy',
+          cancelText: "Hủy",
           type: "is-danger",
           hasIcon: true,
           onConfirm: () => this.confirmDelete(id)
@@ -424,14 +423,14 @@
 
       pause() {
         this.$buefy.notification.open({
-          message: `Vui lòng điền đầy đủ thông tin`,
+          message: "Vui lòng điền đầy đủ thông tin",
           type: "is-danger",
           pauseOnHover: true,
         });
       },
       prompt(id) {
         this.$buefy.dialog.prompt({
-          message: `What's your name?`,
+          message: "What's your name?",
           inputAttrs: [{
             placeholder: "e.g. Walter",
             maxlength: 10

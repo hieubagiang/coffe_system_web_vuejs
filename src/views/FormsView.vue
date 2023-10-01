@@ -102,6 +102,7 @@
   import HeroBar from "@/components/HeroBar.vue";
   import CheckboxRadioPicker from "@/components/CheckboxRadioPicker.vue";
   import axios from "axios";
+  import {BASE_URL} from "@/config/config";
 
   export default defineComponent({
     name: "FormsView",
@@ -129,7 +130,7 @@
     },
 
     mounted() {
-      const baseDomain = "http://localhost:8080";
+      const baseDomain = BASE_URL;
 
       const baseURL = `${baseDomain}`;
       this.instance = axios.create({

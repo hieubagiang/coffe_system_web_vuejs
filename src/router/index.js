@@ -114,7 +114,7 @@ const routes = [
         path: "",
         name: "login",
         component: () => import(/* webpackChunkName: "full-page" */ "@/views/full-page/LoginView.vue"),
-        alias: '/login'
+        alias: "/login"
       }
     ]
   }

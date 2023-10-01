@@ -64,27 +64,22 @@
 </template>
 
 <script>
-  import { defineComponent } from "vue";
-  import NotificationBar from "@/components/NotificationBar.vue";
-  import CardComponent from "@/components/CardComponent.vue";
-  import TitleBar from "@/components/TitleBar.vue";
-  import HeroBar from "@/components/HeroBar.vue";
-  import ItemsTable from "@/components/ItemTable";
-  import EmployeeTable from "@/components/EmployeeTable";
-  import CategoryTable from "@/components/CategoryTable";
-  import axios from "axios";
+import {defineComponent} from "vue";
+import CardComponent from "@/components/CardComponent.vue";
+import TitleBar from "@/components/TitleBar.vue";
+import HeroBar from "@/components/HeroBar.vue";
+import CategoryTable from "@/components/CategoryTable";
+import axios from "axios";
+import {BASE_URL} from "@/config/config";
 
 
-  export default defineComponent({
+export default defineComponent({
     name: "CategoryTableView",
     components: {
       CategoryTable,
-      ItemsTable,
       HeroBar,
       TitleBar,
       CardComponent,
-      NotificationBar,
-      EmployeeTable
     },
     data () {
       return {
@@ -95,32 +90,30 @@
         isActive: false,
         myModel: false,
         categories: [],
-        selected: '',
+        selected: "",
         items: [],
         category: {
-          id: '',
-          name: '',
-          createTime: '',
+          id: "",
+          name: "",
+          createTime: "",
         },
-        storeId: '',
-        instance: '',
+        storeId: "",
+        instance: "",
         isCard: false,
         isComponentModalActive: false
       };
     },
 
     mounted() {
-      const baseDomain = "http://localhost:8080";
-
-      const baseURL = `${baseDomain}`;
+      const baseURL = `${BASE_URL}`;
       this.instance = axios.create({
         baseURL,
       });
       this.instance.interceptors.request.use(
         (config) => {
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers["Authorization"] = `Bearer ${token}`;
           }
 
           return config;
@@ -134,7 +127,7 @@
 
     methods: {
       addCategory() {
-        this.myModel = true
+        this.myModel = true;
       },
 
       submit() {
@@ -145,7 +138,7 @@
             .then((response) => {
               if (response.data.status.code === 1000) {
                 this.myModel = false;
-                this.$root.$emit('reloadCategory');
+                this.$root.$emit("reloadCategory");
                 this.$buefy.toast.open({
                   message: "Lưu thành công",
                   type: "is-success"
@@ -164,7 +157,7 @@
 
       pause() {
         this.$buefy.notification.open({
-          message: `Vui lòng điền đầy đủ thông tin`,
+          message: "Vui lòng điền đầy đủ thông tin",
           type: "is-danger",
           pauseOnHover: true,
         });

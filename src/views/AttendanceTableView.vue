@@ -23,22 +23,19 @@
 </template>
 
 <script>
-  import {defineComponent} from "vue";
-  import TitleBar from "@/components/TitleBar.vue";
-  import CardComponent from "@/components/CardComponent.vue";
-  import FilePicker from "@/components/FilePicker.vue";
-  import HeroBar from "@/components/HeroBar.vue";
-  import CheckboxRadioPicker from "@/components/CheckboxRadioPicker.vue";
-  import axios from "axios";
-  import AttendanceTable from "@/components/AttendanceTable";
+import {defineComponent} from "vue";
+import TitleBar from "@/components/TitleBar.vue";
+import CardComponent from "@/components/CardComponent.vue";
+import HeroBar from "@/components/HeroBar.vue";
+import axios from "axios";
+import AttendanceTable from "@/components/AttendanceTable";
+import {BASE_URL} from "@/config/config";
 
-  export default defineComponent({
+export default defineComponent({
     name: "AttendanceTableView",
     components: {
       AttendanceTable,
-      CheckboxRadioPicker,
       HeroBar,
-      FilePicker,
       CardComponent,
       TitleBar
     },
@@ -49,19 +46,17 @@
         employees: [],
         roles: [],
         user: {
-          id: '',
-          username: '',
-          password: '',
-          employeeId: '',
-          role: '',
+          id: "",
+          username: "",
+          password: "",
+          employeeId: "",
+          role: "",
         }
       };
     },
 
     mounted() {
-      const baseDomain = "http://localhost:8080";
-
-      const baseURL = `${baseDomain}`;
+      const baseURL = `${BASE_URL}`;
       this.instance = axios.create({
         baseURL,
       });
@@ -110,16 +105,16 @@
 
       submit() {
         if (this.checkForm()) {
-          this.pause()
+          this.pause();
         } else {
           this.instance.post("/user/save", this.user)
             .then((response) => {
               if (response.data.status.code === 1000) {
                 this.resetForm();
                 this.$buefy.toast.open({
-                  message: 'Lưu thành công',
-                  type: 'is-success'
-                })
+                  message: "Lưu thành công",
+                  type: "is-success"
+                });
               }
             });
         }
@@ -133,18 +128,18 @@
 
       pause() {
         this.$buefy.notification.open({
-          message: `Vui lòng điền đầy đủ thông tin`,
+          message: "Vui lòng điền đầy đủ thông tin",
           type: "is-danger",
           pauseOnHover: true,
         });
       },
 
       resetForm() {
-        this.user.id = '',
-          this.user.username = '',
-          this.user.password = '',
-          this.user.employeeId = '',
-          this.user.role = ''
+        this.user.id = "",
+          this.user.username = "",
+          this.user.password = "",
+          this.user.employeeId = "",
+          this.user.role = "";
       }
     }
   });

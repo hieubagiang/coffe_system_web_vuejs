@@ -142,6 +142,7 @@
   import HeroBar from "@/components/HeroBar.vue";
   import EmployeeTable from "@/components/EmployeeTable";
   import axios from "axios";
+  import {BASE_URL} from "@/config/config";
 
 
   export default defineComponent({
@@ -186,7 +187,7 @@
     },
 
     mounted() {
-      const baseDomain = "http://localhost:8080";
+      const baseDomain = BASE_URL;
 
       const baseURL = `${baseDomain}`;
       this.instance = axios.create({

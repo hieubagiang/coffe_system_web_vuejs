@@ -70,13 +70,13 @@
 <script>
   import {defineComponent} from "vue";
   import ModalBox from "@/components/ModalBox.vue";
-  import CardComponent from "@/components/CardComponent.vue";
   import axios from "axios";
+  import {BASE_URL} from "@/config/config";
 
 
   export default defineComponent({
     name: "AttendanceTable",
-    components: {ModalBox, CardComponent},
+    components: {ModalBox},
     props: {
       checkable: Boolean,
       isEmpty: Boolean,
@@ -92,24 +92,24 @@
         trashObject: null,
         isActive: false,
         categories: [],
-        selected: '',
+        selected: "",
         attendances: [],
         attendance: {
-          id: '',
-          name: '',
-          categoryId: '',
-          categoryName: '',
-          price: '',
-          createTime: '',
+          id: "",
+          name: "",
+          categoryId: "",
+          categoryName: "",
+          price: "",
+          createTime: "",
         },
-        storeId: '',
-        instance: '',
+        storeId: "",
+        instance: "",
         isCard: false,
         isComponentModalActive: false
       };
     },
     mounted() {
-      const baseDomain = "http://localhost:8080";
+      const baseDomain = BASE_URL;
 
       const baseURL = `${baseDomain}`;
       this.instance = axios.create({
@@ -117,9 +117,9 @@
       });
       this.instance.interceptors.request.use(
         (config) => {
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers["Authorization"] = `Bearer ${token}`;
           }
 
           return config;
@@ -131,9 +131,9 @@
       );
         this.storeId = localStorage.getItem("storeId");
       this.loadAttendance(this.storeId);
-      this.$root.$on('reloadAttendance', (storeId) => {
+      this.$root.$on("reloadAttendance", (storeId) => {
         this.loadAttendance(storeId);
-      })
+      });
     },
 
     computed: {
@@ -181,7 +181,7 @@
           title: "Xóa đồ uống",
           message: "Bạn chắc chắn <b>xóa</b> chứ ?",
           confirmText: "Xóa",
-          cancelText: 'Hủy',
+          cancelText: "Hủy",
           type: "is-danger",
           hasIcon: true,
           onConfirm: () => this.confirmDelete(id)
@@ -211,7 +211,7 @@
             .then((response) => {
               if (response.data.status.code === 1000) {
                 this.myModel = false;
-                this.loadItems()
+                this.loadItems();
                 this.$buefy.toast.open({
                   message: "Lưu thành công",
                   type: "is-success"
@@ -223,7 +223,7 @@
       },
       pause() {
         this.$buefy.notification.open({
-          message: `Vui lòng điền đầy đủ thông tin`,
+          message: "Vui lòng điền đầy đủ thông tin",
           type: "is-danger",
           pauseOnHover: true,
         });

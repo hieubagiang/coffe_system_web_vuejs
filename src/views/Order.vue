@@ -10,7 +10,7 @@
           <div class="card-header py-3">Danh sách bàn
             <b-button style="margin-left: 45%" type="is-success" @click="addTable">Thêm bàn</b-button></div>
           <div class="card-body">
-            <div class="table-area" v-for="(numberTable, index) in listOrder">
+            <div class="table-area" v-for="(numberTable, index) in listOrder" :key="index">
               <b-button style="width: 130px; border: double; height: 70px"
                         rounded
                         type="is-light"
@@ -92,20 +92,21 @@
 </template>
 
 <script>
-  import {defineComponent} from "vue";
-  import ClientsTableSample from "@/components/ClientsTableSample";
-  import OrderDetailTable from "@/components/OrderDetailTable";
-  import LineChart from "@/components/Charts/LineChart";
-  import CardComponent from "@/components/CardComponent";
-  import CardWidget from "@/components/CardWidget";
-  import TilesBlock from "@/components/TilesBlock";
-  import HeroBar from "@/components/HeroBar";
-  import TitleBar from "@/components/TitleBar";
-  import NotificationBar from "@/components/NotificationBar";
-  import * as chartConfig from "@/components/Charts/chart.config";
-  import axios from "axios";
+import {defineComponent} from "vue";
+import ClientsTableSample from "@/components/ClientsTableSample";
+import OrderDetailTable from "@/components/OrderDetailTable";
+import LineChart from "@/components/Charts/LineChart";
+import CardComponent from "@/components/CardComponent";
+import CardWidget from "@/components/CardWidget";
+import TilesBlock from "@/components/TilesBlock";
+import HeroBar from "@/components/HeroBar";
+import TitleBar from "@/components/TitleBar";
+import NotificationBar from "@/components/NotificationBar";
+import * as chartConfig from "@/components/Charts/chart.config";
+import axios from "axios";
+import {BASE_URL} from "@/config/config";
 
-  export default defineComponent({
+export default defineComponent({
     name: "Order",
     components: {
       ClientsTableSample,
@@ -121,33 +122,31 @@
     data() {
       return {
         titleStack: ["Admin", "Order"],
-        instance: '',
+        instance: "",
         error: [],
         stores: [],
         isActive: false,
         myModel: false,
-        storeId: '',
+        storeId: "",
         listTable: [],
         listOrder: [],
         detailData: [],
         table: {
-          id: '',
-          name: ''
+          id: "",
+          name: ""
         }
       };
     },
     mounted() {
-      const baseDomain = "http://localhost:8080";
-
-      const baseURL = `${baseDomain}`;
+      const baseURL = `${BASE_URL}`;
       this.instance = axios.create({
         baseURL,
       });
       this.instance.interceptors.request.use(
         (config) => {
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers["Authorization"] = `Bearer ${token}`;
           }
 
           return config;
@@ -159,12 +158,12 @@
       );
       this.fillChartData();
 
-      this.storeId = localStorage.getItem("storeId")
+      this.storeId = localStorage.getItem("storeId");
       this.loadTable(this.storeId);
-      this.$root.$on('reload', (storeId) => {
+      this.$root.$on("reload", (storeId) => {
         this.loadTable(storeId);
-        this.detailData = []
-      })
+        this.detailData = [];
+      });
     },
 
     methods: {
@@ -193,9 +192,9 @@
               if (response.data.status.code === 1000) {
                 this.myModel = false;
                 this.$buefy.toast.open({
-                  message: 'Lưu thành công',
-                  type: 'is-success'
-                })
+                  message: "Lưu thành công",
+                  type: "is-success"
+                });
                 this.loadTable(storeId);
               }
             });
@@ -204,7 +203,7 @@
 
       pause() {
         this.$buefy.notification.open({
-          message: `Vui lòng điền đầy đủ thông tin`,
+          message: "Vui lòng điền đầy đủ thông tin",
           type: "is-danger",
           pauseOnHover: true,
         });
@@ -220,7 +219,7 @@
         storeId = this.storeId;
         this.instance.get("/" + storeId + "/order/detail/" +tableId)
           .then((response) => {
-            this.detailData = response.data.data.listItemResponse
+            this.detailData = response.data.data.listItemResponse;
           });
       }
 
@@ -310,7 +309,7 @@
   .table-area {
     padding: 5px;
     display: inline-block;
-    flex-grow: 1 0;
+    flex-grow: 10;
   }
 
   .detail-order-block {

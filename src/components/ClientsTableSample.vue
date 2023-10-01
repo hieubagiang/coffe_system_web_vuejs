@@ -172,12 +172,13 @@
 </template>
 
 <script>
-  import {defineComponent} from "vue";
-  import ModalBox from "@/components/ModalBox.vue";
-  import CardComponent from "@/components/CardComponent.vue";
-  import axios from "axios";
+import {defineComponent} from "vue";
+import ModalBox from "@/components/ModalBox.vue";
+import CardComponent from "@/components/CardComponent.vue";
+import axios from "axios";
+import {BASE_URL} from "@/config/config";
 
-  export default defineComponent({
+export default defineComponent({
     name: "ClientTableSample",
     components: {ModalBox, CardComponent},
     props: {
@@ -213,9 +214,7 @@
       };
     },
     mounted() {
-      const baseDomain = "http://localhost:8080";
-
-      const baseURL = `${baseDomain}`;
+      const baseURL = `${BASE_URL}`;
       this.instance = axios.create({
         baseURL,
       });
@@ -295,7 +294,7 @@
 
       pause() {
         this.$buefy.notification.open({
-          message: `Vui lòng điền đầy đủ thông tin`,
+          message: "Vui lòng điền đầy đủ thông tin",
           type: "is-danger",
           pauseOnHover: true,
         });
@@ -305,7 +304,7 @@
           title: "Xóa khách hàng",
           message: "Bạn chắc chắn <b>xóa</b> chứ ?",
           confirmText: "Xóa",
-          cancelText: 'Hủy',
+          cancelText: "Hủy",
           type: "is-danger",
           hasIcon: true,
           onConfirm: () => this.confirmDelete(id)

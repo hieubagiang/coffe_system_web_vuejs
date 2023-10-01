@@ -75,6 +75,7 @@
   import UserAvatar from "@/components/UserAvatar.vue";
   import router from "@/router";
   import axios from "axios";
+  import {BASE_URL} from "@/config/config";
 
   export default defineComponent({
     name: "NavBar",
@@ -111,7 +112,7 @@
         },
     },
     mounted() {
-      const baseDomain = "http://localhost:8080";
+      const baseDomain = BASE_URL;
 
       const baseURL = `${baseDomain}`;
       this.instance = axios.create({

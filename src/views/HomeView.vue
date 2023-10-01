@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 import * as chartConfig from "@/components/Charts/chart.config.js";
 import TitleBar from "@/components/TitleBar.vue";
 import HeroBar from "@/components/HeroBar.vue";
@@ -76,6 +76,7 @@ import CardComponent from "@/components/CardComponent.vue";
 import ClientsTableSample from "@/components/ClientsTableSample.vue";
 import NotificationBar from "@/components/NotificationBar.vue";
 import axios from "axios";
+import {BASE_URL} from "@/config/config";
 
 export default defineComponent({
   name: "HomeView",
@@ -91,12 +92,12 @@ export default defineComponent({
   data () {
     return {
       titleStack: ["Admin", "Trang chủ"],
-      instance: '',
+      instance: "",
       error: [],
-      newCustomer: '',
-      quantityOrder: '',
-      revenue: '',
-      performance: '',
+      newCustomer: "",
+      quantityOrder: "",
+      revenue: "",
+      performance: "",
     };
   },
   watch: {
@@ -105,17 +106,15 @@ export default defineComponent({
     }
   },
   mounted () {
-      const baseDomain = "http://localhost:8080";
-
-    const baseURL = `${baseDomain}`;
+    const baseURL = `${BASE_URL}`;
     this.instance = axios.create({
       baseURL,
     });
     this.instance.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
+          config.headers["Authorization"] = `Bearer ${token}`;
         }
 
         return config;
@@ -134,7 +133,7 @@ export default defineComponent({
     this.statisticOrderByDate(this.storeId, new Date());
     this.statisticPerformanceByDate(this.storeId, new Date());
 
-    this.$root.$on('reStatistic', (storeId, date) => {
+    this.$root.$on("reStatistic", (storeId, date) => {
       this.statisticNewCustomer(storeId, date);
       this.statisticOrderByDate(storeId, date);
       this.statisticPerformanceByDate(storeId, date);
@@ -145,7 +144,7 @@ export default defineComponent({
       this.chartData = chartConfig.sampleChartData();
     },
     loadStore() {
-      if (localStorage.getItem("role") === 'ROLE_MANAGER') {
+      if (localStorage.getItem("role") === "ROLE_MANAGER") {
         this.instance.get("/manager/store/" + this.employeeId)
           .then((response) => {
             this.stores = response.data.data;

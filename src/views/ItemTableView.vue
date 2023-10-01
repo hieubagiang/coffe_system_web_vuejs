@@ -47,7 +47,7 @@
               label="Loại đồ uống"
             >
               <select v-model="item.categoryId" style="width: 30%; height: 30px">
-                <option v-for="category in categories" :value="category.id">
+                <option v-for="category in categories" :value="category.id" :key="category.id">
                   {{ category.name }}
                 </option>
               </select>
@@ -101,6 +101,7 @@
   import ItemsTable from "@/components/ItemTable";
   import EmployeeTable from "@/components/EmployeeTable";
   import axios from "axios";
+  import {BASE_URL} from "@/config/config";
 
 
   export default defineComponent({
@@ -140,7 +141,7 @@
     },
 
     mounted() {
-      const baseDomain = "http://localhost:8080";
+      const baseDomain = BASE_URL;
 
       const baseURL = `${baseDomain}`;
       this.instance = axios.create({

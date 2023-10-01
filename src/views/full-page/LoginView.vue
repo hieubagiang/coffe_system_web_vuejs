@@ -61,6 +61,7 @@
   import axios from "axios";
   import CardComponent from "@/components/CardComponent.vue";
   import router from "@/router";
+  import {BASE_URL} from "@/config/config";
 
   const checkLogin = ref(false);
   const isLoading = ref(false);
@@ -74,7 +75,7 @@
   const login = () => {
     isLoading.value = true;
     setTimeout(() => {
-      axios.post("http://localhost:8080/auth/login", { username: form.value.username, password: form.value.password })
+      axios.post(BASE_URL+"/auth/login", { username: form.value.username, password: form.value.password })
         .then((response) => {
           token.value = response.data.data.accessToken;
           role.value = response.data.data.role;
